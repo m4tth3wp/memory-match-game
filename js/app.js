@@ -7,6 +7,7 @@ let startButton = document.getElementById('start')
 let resetButton = document.getElementById('reset')
 let gameBoard = document.querySelector('.game-board')
 let gameScore = document.querySelector('.score')
+let cards = document.querySelectorAll('.card')
 
 /*----- constants -----*/
 class MemoryGame {
@@ -14,11 +15,14 @@ class MemoryGame {
         this.totalTime = totalTime
         this.difficulty = difficulty
         this.cardsRendered = 0
-        this.choices = []
+        this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
+         'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
+        'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
     }
     resetGame() {
         gameBoard.innerHTML = ''
         gameScore.innerHTML = 0
+        messageBox.innerHTML = ''
     }
     cardAmount() {
         let cards = this.difficulty
@@ -31,14 +35,34 @@ class MemoryGame {
             this.cardsRendered = 24
         } 
     }
+    gameStart() {
+        setTimeout(function() {
+            messageBox.innerHTML = 'Go!'
+        }, 4000)
+        setTimeout(function() {
+            messageBox.innerHTML = 1
+        }, 3000)
+        setTimeout(function() {
+            messageBox.innerHTML = 2
+        }, 2000)
+        setTimeout(function() {
+            messageBox.innerHTML = 3
+        }, 1000)
+    }
     boardRender() {
-        for (let i = 0; i < this.cardsRendered; i++) {
-        // TODO: have this function populate the board with the choices
-        let gameGrid = document.createElement('div')
-        let gamePicks = document.createElement('img')
-        // gamePicks.src = '/img/IMG_6302.JPG'
-        gameGrid.appendChild(gamePicks)
-        gameBoard.appendChild(gameGrid)
+        let possibleChoices = this.choices.slice(0)
+        let selected = []
+        for (let i = 0; i < this.cardsRendered / 2; i++) {
+            let randomInd = Math.floor(Math.random(possibleChoices.length))
+            let face = possibleChoices[randomInd]
+            selected.push(face)
+            selected.push(face)
+            possibleChoices.splice(randomInd, 1)
+        }
+        for (let i = 0; i < selected.length; i++) {
+            let gameGrid = $('.game-board')
+            let gameCards = $(`<div class='card'><img src=${selected[i]}></img></div>`)
+            gameGrid.append(gameCards)
         }
     }
 
@@ -69,7 +93,8 @@ hardButton.addEventListener('click', function(e) {
 })
 
 startButton.addEventListener('click', function(e) {
-    console.log('start button')
+    mediumGame.cardAmount()
+    mediumGame.gameStart()
 })
 
 resetButton.addEventListener('click', resetGame)
