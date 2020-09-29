@@ -7,7 +7,7 @@ let startButton = document.getElementById('start')
 let resetButton = document.getElementById('reset')
 let gameBoard = document.querySelector('.game-board')
 let gameScore = document.querySelector('.score')
-let cards = document.querySelectorAll('.card')
+
 
 /*----- constants -----*/
 class MemoryGame {
@@ -73,6 +73,12 @@ class MemoryGame {
             let gameCards = $(`<div class='card'><img src=${selected[i]}></img></div>`)
             gameGrid.append(gameCards)
         }
+        let cards = document.querySelectorAll('.card')
+        cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+                console.log('Hello')
+            })
+        })
     }
 }
 /*----- app's state (variables) -----*/
