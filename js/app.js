@@ -59,13 +59,21 @@ class MemoryGame {
             selected.push(face)
             possibleChoices.splice(randomInd, 1)
         }
+        let counter = this.cardsRendered;
+        while (counter > 0) {
+            let ind = Math.floor(Math.random() * counter);
+            counter--;
+            // swap the last element with it
+            let temp = selected[counter];
+            selected[counter] = selected[ind];
+            selected[ind] = temp;
+        }
         for (let i = 0; i < selected.length; i++) {
             let gameGrid = $('.game-board')
             let gameCards = $(`<div class='card'><img src=${selected[i]}></img></div>`)
             gameGrid.append(gameCards)
         }
     }
-
 }
 /*----- app's state (variables) -----*/
 let easyGame = new MemoryGame(30, 'easy')
@@ -94,6 +102,7 @@ hardButton.addEventListener('click', function(e) {
 
 startButton.addEventListener('click', function(e) {
     mediumGame.cardAmount()
+    mediumGame.boardRender()
     mediumGame.gameStart()
 })
 
