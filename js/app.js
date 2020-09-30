@@ -51,6 +51,15 @@ class MemoryGame {
             messageBox.innerHTML = 3
         }, 1000)
     }
+    revealImages() {
+        let cards = document.querySelectorAll('.card')
+        cards.forEach(function(card) {
+            card.addEventListener('click', function(e) {
+            let targetImage = e.target
+            targetImage.style.opacity = '1'
+            })
+        })
+    }
     boardRender() {
         let possibleChoices = this.choices.slice(0)
         let selected = []
@@ -75,18 +84,7 @@ class MemoryGame {
             let gameCards = $(`<div class='card'><img src=${selected[i]}></img></div>`)
             gameGrid.append(gameCards)
         }
-        let cards = document.querySelectorAll('.card')
-        cards.forEach(function(card) {
-            card.addEventListener('click', function(e) {
-                let imageCache = document.querySelectorAll('img')
-                for (let i= 0; i < imageCache.length; i++) {
-                    imageCache[i].style.visibility = 'visible'
-                    console.log(imageCache[i])
-                }
-            // let $img = $('img')
-            // console.log($img)
-            })
-        })
+        this.revealImages()
     }
     checkMatch() {
         
@@ -102,19 +100,16 @@ easyButton.addEventListener('click', function() {
     
     easyGame.cardAmount()
     easyGame.boardRender()
-    console.log(easyGame.cardsRendered)
 })
 
 mediumButton.addEventListener('click', function(e) {
     mediumGame.cardAmount()
     mediumGame.boardRender()
-    console.log(mediumGame.cardsRendered)
 })
 
 hardButton.addEventListener('click', function(e) {
     hardGame.cardAmount()
     hardGame.boardRender()
-    console.log(hardGame.cardsRendered)
 })
 
 startButton.addEventListener('click', function(e) {
