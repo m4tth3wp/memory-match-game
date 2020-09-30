@@ -9,12 +9,14 @@ let gameBoard = document.querySelector('.game-board')
 let gameScore = document.querySelector('.score')
 
 
+
 /*----- constants -----*/
 class MemoryGame {
     constructor(totalTime, difficulty) {
         this.totalTime = totalTime
         this.difficulty = difficulty
         this.cardsRendered = 0
+        this.cardsCheck = [1]
         this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
@@ -75,10 +77,19 @@ class MemoryGame {
         }
         let cards = document.querySelectorAll('.card')
         cards.forEach(function(card) {
-            card.addEventListener('click', function() {
-                console.log('Hello')
+            card.addEventListener('click', function(e) {
+                let imageCache = document.querySelectorAll('img')
+                for (let i= 0; i < imageCache.length; i++) {
+                    imageCache[i].style.visibility = 'visible'
+                    console.log(imageCache[i])
+                }
+            // let $img = $('img')
+            // console.log($img)
             })
         })
+    }
+    checkMatch() {
+        
     }
 }
 /*----- app's state (variables) -----*/
@@ -107,8 +118,8 @@ hardButton.addEventListener('click', function(e) {
 })
 
 startButton.addEventListener('click', function(e) {
-    mediumGame.cardAmount()
-    mediumGame.boardRender()
+    // mediumGame.cardAmount()
+    // mediumGame.boardRender()
     mediumGame.gameStart()
 })
 
