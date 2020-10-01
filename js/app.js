@@ -16,6 +16,7 @@ class MemoryGame {
         this.totalTime = totalTime
         this.difficulty = difficulty
         this.cardsRendered = 0
+        this.score = []
         this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
@@ -29,12 +30,23 @@ class MemoryGame {
         //check to see if the two cards match
         let imagesRendered = document.querySelectorAll('.picked-choice')
         let imageArr = Array.from(imagesRendered)
+        let winningCardsPicked = []
         let option1 = imageArr[0].getAttribute('data-info')
         let option2 = imageArr[1].getAttribute('data-info')
         if (imageArr.length === 2 && option1 === option2) {
-            console.log('match')
+            winningCardsPicked.push(option1)
+            winningCardsPicked.push(option2)
+            imagesRendered.forEach(function(image) {
+                image.classList.remove('picked-choice')
+            })
         } else {
-            console.log('no match')
+
+            imagesRendered.forEach(function(image) {
+                setTimeout(function(){
+                    image.style.opacity = '0'
+                    image.classList.remove('picked-choice')
+                }, 1500)
+            })
         }
     }
     cardAmount() {
@@ -64,7 +76,6 @@ class MemoryGame {
     }
     revealImages() {
         let checkFunction = this.checkMatch
-        this.pickedCards = []
         let cards = document.querySelectorAll('.card')
         cards.forEach(function(card) {
             card.addEventListener('click', function(e) {
