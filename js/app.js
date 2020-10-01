@@ -16,7 +16,6 @@ class MemoryGame {
         this.totalTime = totalTime
         this.difficulty = difficulty
         this.cardsRendered = 0
-        this.cardsCheck = [1]
         this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
@@ -25,6 +24,23 @@ class MemoryGame {
         gameBoard.innerHTML = ''
         gameScore.innerHTML = 0
         messageBox.innerHTML = ''
+    }
+    checkMatch() {
+        //check to see if the two cards match
+        let imagesRendered = document.querySelectorAll('picked-choice')
+        imagesRendered.forEach(function(image) {
+            if (image[0] === image[1]) {
+                console.log('match')
+            } 
+        })
+        // if(this.pickedCards[0] === this.pickedCards[1]) {
+        //     console.log('match!')
+        // } else {
+        //     //if not matched, remove the cards from the array
+        //     this.pickedCards.pop()
+        //     this.pickedCards.pop()
+        //     console.log('not match')
+        // }
     }
     cardAmount() {
         let cards = this.difficulty
@@ -52,13 +68,16 @@ class MemoryGame {
         }, 1000)
     }
     revealImages() {
+        this.pickedCards = []
         let cards = document.querySelectorAll('.card')
         cards.forEach(function(card) {
             card.addEventListener('click', function(e) {
             let targetImage = e.target
             targetImage.style.opacity = '1'
+            targetImage.classList.add('picked-choice')
             })
         })
+        this.checkMatch()
     }
     boardRender() {
         let possibleChoices = this.choices.slice(0)
@@ -81,13 +100,10 @@ class MemoryGame {
         }
         for (let i = 0; i < selected.length; i++) {
             let gameGrid = $('.game-board')
-            let gameCards = $(`<div class='card'><img src=${selected[i]}></img></div>`)
+            let gameCards = $(`<div class='card'><img data-${selected[i]} src=${selected[i]}></img></div>`)
             gameGrid.append(gameCards)
         }
         this.revealImages()
-    }
-    checkMatch() {
-        
     }
 }
 /*----- app's state (variables) -----*/
