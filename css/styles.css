@@ -2,6 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: lightgray;
 }
 
 h1 {
@@ -35,6 +36,7 @@ h1 {
     text-align: center;
     height: auto;
     margin: 20px;
+    place-self: center;
 }
 
 img {

@@ -1,12 +1,12 @@
 /*----- cached element references -----*/
-let messageBox = document.querySelector('.message-box')
-let easyButton = document.getElementById('easy')
-let mediumButton = document.getElementById('medium')
-let hardButton = document.getElementById('hard')
-let startButton = document.getElementById('start')
-let resetButton = document.getElementById('reset')
-let gameBoard = document.querySelector('.game-board')
-let gameScore = document.querySelector('.score')
+let messageBox = document.querySelector('.message-box');
+let easyButton = document.getElementById('easy');
+let mediumButton = document.getElementById('medium');
+let hardButton = document.getElementById('hard');
+let startButton = document.getElementById('start');
+let resetButton = document.getElementById('reset');
+let gameBoard = document.querySelector('.game-board');
+let gameScore = document.querySelector('.score');
 
 
 
@@ -22,22 +22,20 @@ class MemoryGame {
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
     }
     resetGame() {
-        gameBoard.innerHTML = ''
-        gameScore.innerHTML = 0
-        messageBox.innerHTML = ''
+        gameBoard.innerHTML = '';
+        gameScore.innerHTML = 0;
+        messageBox.innerHTML = '';
     }
     checkMatch() {
         //check to see if the two cards match
         let imagesRendered = document.querySelectorAll('.picked-choice')
         let imageArr = Array.from(imagesRendered)
-        let winningCardsPicked = []
         let option1 = imageArr[0].getAttribute('data-info')
         let option2 = imageArr[1].getAttribute('data-info')
         if (imageArr.length === 2 && option1 === option2) {
-            winningCardsPicked.push(option1)
-            winningCardsPicked.push(option2)
             imagesRendered.forEach(function(image) {
                 image.classList.remove('picked-choice')
+                image.classList.add('winning-pick')
             })
         } else {
 
@@ -45,7 +43,7 @@ class MemoryGame {
                 setTimeout(function(){
                     image.style.opacity = '0'
                     image.classList.remove('picked-choice')
-                }, 1500)
+                }, 1000)
             })
         }
     }
@@ -85,7 +83,15 @@ class MemoryGame {
             checkFunction()
             })
         })
-        
+    }
+    declareWin() {
+        let allCards = document.querySelectorAll('.winning-pick')
+        let allCardsArr = Array.from(allCards)
+        if (allCardsArr === this.cardsRendered) {
+            console.log('Win!')
+        } else {
+            console.log('no win')
+        }
     }
     boardRender() {
         let possibleChoices = this.choices.slice(0)
@@ -127,11 +133,13 @@ easyButton.addEventListener('click', function() {
 })
 
 mediumButton.addEventListener('click', function(e) {
+    gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     mediumGame.cardAmount()
     mediumGame.boardRender()
 })
 
 hardButton.addEventListener('click', function(e) {
+    gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     hardGame.cardAmount()
     hardGame.boardRender()
 })
@@ -148,4 +156,5 @@ resetButton.addEventListener('click', resetGame)
 function resetGame() {
     gameBoard.innerHTML = ''
     gameScore.innerHTML = 0
+    gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr'
 }
