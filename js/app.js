@@ -71,9 +71,11 @@ class MemoryGame {
         setTimeout(function() {
             messageBox.innerHTML = 3
         }, 1000)
+        this.declareWin()
     }
     revealImages() {
         let checkFunction = this.checkMatch
+        let checkWin = this.declareWin
         let cards = document.querySelectorAll('.card')
         cards.forEach(function(card) {
             card.addEventListener('click', function(e) {
@@ -81,14 +83,16 @@ class MemoryGame {
             targetImage.style.opacity = '1'
             targetImage.classList.add('picked-choice')
             checkFunction()
+            checkWin()
             })
         })
     }
     declareWin() {
         let allCards = document.querySelectorAll('.winning-pick')
         let allCardsArr = Array.from(allCards)
-        if (allCardsArr === this.cardsRendered) {
-            console.log('Win!')
+        // TODO: figure out how to check using this.cardsRendered
+        if (allCardsArr.length === 16) {
+            messageBox.innerHTML = 'You Won!'
         } else {
             console.log('no win')
         }
@@ -114,7 +118,7 @@ class MemoryGame {
         }
         for (let i = 0; i < selected.length; i++) {
             let gameGrid = $('.game-board')
-            let gameCards = $(`<div class='card'><img data-info=${selected[i]} src=${selected[i]}></img></div>`)
+            let gameCards = $(`<div class='card'><img data-info=${selected[i]} src=${selected[i]} draggable="false"></img></div>`)
             gameGrid.append(gameCards)
         }
         this.revealImages()
@@ -147,7 +151,7 @@ hardButton.addEventListener('click', function(e) {
 startButton.addEventListener('click', function(e) {
     // mediumGame.cardAmount()
     // mediumGame.boardRender()
-    mediumGame.gameStart()
+    easyGame.gameStart()
 })
 
 resetButton.addEventListener('click', resetGame)
@@ -157,4 +161,5 @@ function resetGame() {
     gameBoard.innerHTML = ''
     gameScore.innerHTML = 0
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr'
+    location.reload()
 }
