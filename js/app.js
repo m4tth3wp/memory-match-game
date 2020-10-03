@@ -7,6 +7,7 @@ let startButton = document.getElementById('start');
 let resetButton = document.getElementById('reset');
 let gameBoard = document.querySelector('.game-board');
 let gameScore = document.querySelector('.score');
+let gameTime = document.querySelector('.timer')
 
 
 
@@ -25,6 +26,19 @@ class MemoryGame {
         gameBoard.innerHTML = '';
         gameScore.innerHTML = 0;
         messageBox.innerHTML = '';
+    }
+    countdownTime() {
+        let levelTimeAmount = this.totalTime
+        setInterval(function() {
+            let countdown = levelTimeAmount--
+            if (countdown < 0) {
+                messageBox.innerHTML = 'You Lost :( . Try Again!'
+                //TODO: fix why this does not stop the setInterval
+                clearInterval(this.countdownTime)
+            } else {
+                gameTime.innerHTML = countdown
+            }
+        }, 1000);
     }
     checkMatch() {
         //check to see if the two cards match
@@ -71,7 +85,8 @@ class MemoryGame {
         setTimeout(function() {
             messageBox.innerHTML = 3
         }, 1000)
-        this.declareWin()
+        this.revealImages()
+        this.countdownTime()
     }
     revealImages() {
         let checkFunction = this.checkMatch
@@ -91,7 +106,7 @@ class MemoryGame {
         let allCards = document.querySelectorAll('.winning-pick')
         let allCardsArr = Array.from(allCards)
         // TODO: figure out how to check using this.cardsRendered
-        if (allCardsArr.length === 16) {
+        if (allCardsArr.length === 8) {
             messageBox.innerHTML = 'You Won!'
         } else {
             console.log('no win')
@@ -121,7 +136,7 @@ class MemoryGame {
             let gameCards = $(`<div class='card'><img data-info=${selected[i]} src=${selected[i]} draggable="false"></img></div>`)
             gameGrid.append(gameCards)
         }
-        this.revealImages()
+        
     }
 }
 /*----- app's state (variables) -----*/
@@ -131,7 +146,6 @@ let hardGame = new MemoryGame(120, 'hard')
 
 /*----- event listeners -----*/
 easyButton.addEventListener('click', function() {
-    
     easyGame.cardAmount()
     easyGame.boardRender()
 })
@@ -149,9 +163,17 @@ hardButton.addEventListener('click', function(e) {
 })
 
 startButton.addEventListener('click', function(e) {
-    // mediumGame.cardAmount()
-    // mediumGame.boardRender()
+   // if the cards rendered equal, 8, 16, or 24. start easy, medium or hard
+   let gameboardCards = document.querySelectorAll('.card')
+   let cardsArr = Array.from(gameboardCards) 
+   if (cardsArr.length === 8) {
     easyGame.gameStart()
+   } else if (cardsArr.length === 16) {
+    mediumGame.gameStart()
+   } else {
+    hardGame.gameStart()
+   }
+    
 })
 
 resetButton.addEventListener('click', resetGame)
