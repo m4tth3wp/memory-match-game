@@ -23,19 +23,19 @@ class MemoryGame {
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
     }
-    resetGame() {
+    resetGame = () => {
         gameBoard.innerHTML = '';
         gameScore.innerHTML = 0;
         messageBox.innerHTML = '';
     }
-    countdownTime() {
+    countdownTime = () => {
         if(!this.isGameStarted) {
             this.isGameStarted = true;
             this.runTimer = setInterval( () => {gameTime.innerHTML = --this.totalTime}, 1000)
         }
 
     }
-    stop(){
+    stop = () => {
         if(this.isGameStarted || this.totalTime === 0){
           clearInterval(this.runTimer);
           this.isGameStarted = false
@@ -79,20 +79,18 @@ class MemoryGame {
         this.countdownTime()
     }
     revealImages() {
-        let checkFunction = this.checkMatch
-        let checkWin = this.declareWin
         let cards = document.querySelectorAll('.card')
         let tries = 0
-        cards.forEach(function(card) {
-            card.addEventListener('click', function(e) {
+        cards.forEach((card) => {
+            card.addEventListener('click', (e) => {
             let targetImage = e.target
             tries++
             let fullTries = tries / 2
             gameScore.innerHTML = Math.round(fullTries)
             targetImage.style.opacity = '1'
             targetImage.classList.add('picked-choice')
-            checkFunction()
-            checkWin()
+            this.checkMatch()
+            this.declareWin()
             })
         })
     }
@@ -101,7 +99,6 @@ class MemoryGame {
         let allCardsArr = Array.from(allCards)
         let timeLeft = document.querySelector('.timer').textContent
         let scoreBoard = document.querySelector('.score').textContent
-        // TODO: figure out how to use this.totalCards
         if (allCardsArr.length === this.cardsRendered) {
             messageBox.innerHTML = `You won! You did it in ${scoreBoard} turns and with ${timeLeft} seconds left!`
             this.stop()
@@ -141,24 +138,24 @@ let mediumGame = new MemoryGame(60, 'medium')
 let hardGame = new MemoryGame(120, 'hard')
 
 /*----- event listeners -----*/
-easyButton.addEventListener('click', function() {
+easyButton.addEventListener('click', () => {
     easyGame.cardAmount()
     easyGame.boardRender()
 })
 
-mediumButton.addEventListener('click', function(e) {
+mediumButton.addEventListener('click', (e) => {
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     mediumGame.cardAmount()
     mediumGame.boardRender()
 })
 
-hardButton.addEventListener('click', function(e) {
+hardButton.addEventListener('click', (e) => {
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     hardGame.cardAmount()
     hardGame.boardRender()
 })
 
-startButton.addEventListener('click', function(e) {
+startButton.addEventListener('click', (e) => {
    // if the cards rendered equal, 8, 16, or 24. start easy, medium or hard
    let gameboardCards = document.querySelectorAll('.card')
    let cardsArr = Array.from(gameboardCards) 
