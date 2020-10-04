@@ -14,10 +14,11 @@ let gameTime = document.querySelector('.timer')
 /*----- constants -----*/
 class MemoryGame {
     constructor(totalTime, difficulty) {
-        this.totalTime = totalTime
-        this.difficulty = difficulty
-        this.cardsRendered = 0
-        this.score = []
+        this.totalTime = totalTime;
+        this.difficulty = difficulty;
+        this.cardsRendered = 0;
+        this.isGameStarted = false;
+        this.runTimer;
         this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
@@ -28,18 +29,18 @@ class MemoryGame {
         messageBox.innerHTML = '';
     }
     countdownTime() {
-        let levelTimeAmount = this.totalTime
-        setInterval(function() {
-            let countdown = levelTimeAmount--
-            if (countdown < 0) {
-                messageBox.innerHTML = 'You Lost :( . Try Again!'
-                //TODO: fix why this does not stop the setInterval
-                clearInterval(this.countdownTime)
-            } else {
-                gameTime.innerHTML = countdown
-            }
-        }, 1000);
+        if(!this.isGameStarted) {
+            this.isGameStarted = true;
+            this.runTimer = setInterval( () => {gameTime.innerHTML = --this.totalTime}, 1000)
+        }
+
     }
+    stop(){
+        if(this.isGameStarted || this.totalTime === 0){
+          clearInterval(this.runTimer);
+          this.isGameStarted = false
+        }
+      }
     checkMatch() {
         //check to see if the two cards match
         let imagesRendered = document.querySelectorAll('.picked-choice')
@@ -73,18 +74,7 @@ class MemoryGame {
         } 
     }
     gameStart() {
-        setTimeout(function() {
-            messageBox.innerHTML = 'Go!'
-        }, 4000)
-        setTimeout(function() {
-            messageBox.innerHTML = 1
-        }, 3000)
-        setTimeout(function() {
-            messageBox.innerHTML = 2
-        }, 2000)
-        setTimeout(function() {
-            messageBox.innerHTML = 3
-        }, 1000)
+        messageBox.innerHTML = 'Go!'
         this.revealImages()
         this.countdownTime()
     }
@@ -92,9 +82,13 @@ class MemoryGame {
         let checkFunction = this.checkMatch
         let checkWin = this.declareWin
         let cards = document.querySelectorAll('.card')
+        let tries = 0
         cards.forEach(function(card) {
             card.addEventListener('click', function(e) {
             let targetImage = e.target
+            tries++
+            let fullTries = tries / 2
+            gameScore.innerHTML = Math.round(fullTries)
             targetImage.style.opacity = '1'
             targetImage.classList.add('picked-choice')
             checkFunction()
@@ -102,14 +96,16 @@ class MemoryGame {
             })
         })
     }
-    declareWin() {
+    declareWin = () => {
         let allCards = document.querySelectorAll('.winning-pick')
         let allCardsArr = Array.from(allCards)
-        // TODO: figure out how to check using this.cardsRendered
-        if (allCardsArr.length === 8) {
-            messageBox.innerHTML = 'You Won!'
+        let timeLeft = document.querySelector('.timer').textContent
+        let scoreBoard = document.querySelector('.score').textContent
+        // TODO: figure out how to use this.totalCards
+        if (allCardsArr.length === this.cardsRendered) {
+            messageBox.innerHTML = `You won! You did it in ${scoreBoard} turns and with ${timeLeft} seconds left!`
+            this.stop()
         } else {
-            console.log('no win')
         }
     }
     boardRender() {
