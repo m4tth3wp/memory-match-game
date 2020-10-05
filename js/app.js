@@ -36,7 +36,7 @@ class MemoryGame {
 
     }
     stop = () => {
-        if(this.isGameStarted || this.totalTime === 0){
+        if(this.isGameStarted){
           clearInterval(this.runTimer);
           this.isGameStarted = false
         }
@@ -141,19 +141,19 @@ let hardGame = new MemoryGame(120, 'hard')
 easyButton.addEventListener('click', () => {
     easyGame.cardAmount()
     easyGame.boardRender()
-})
+}, {once: true})
 
 mediumButton.addEventListener('click', (e) => {
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     mediumGame.cardAmount()
     mediumGame.boardRender()
-})
+}, {once: true})
 
 hardButton.addEventListener('click', (e) => {
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     hardGame.cardAmount()
     hardGame.boardRender()
-})
+}, {once: true})
 
 startButton.addEventListener('click', (e) => {
    // if the cards rendered equal, 8, 16, or 24. start easy, medium or hard
@@ -161,13 +161,28 @@ startButton.addEventListener('click', (e) => {
    let cardsArr = Array.from(gameboardCards) 
    if (cardsArr.length === 8) {
     easyGame.gameStart()
+    setTimeout(() => {
+        easyGame.stop()
+        //todo: add remove listeners on cards
+        messageBox.innerHTML = 'Sorry you lost :( . Try again?'
+    }, 30000);
    } else if (cardsArr.length === 16) {
     mediumGame.gameStart()
+    setTimeout(() => {
+        mediumGame.stop()
+        //todo: add remove listeners on cards
+        messageBox.innerHTML = 'Sorry you lost :( . Try again?'
+    }, 60000);
    } else {
     hardGame.gameStart()
+    setTimeout(() => {
+        hardGame.stop()
+        //todo: add remove listeners on cards
+        messageBox.innerHTML = 'Sorry you lost :( . Try again?'
+    }, 120000);
    }
     
-})
+}, {once: true})
 
 resetButton.addEventListener('click', resetGame)
 
