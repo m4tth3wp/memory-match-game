@@ -141,18 +141,24 @@ let hardGame = new MemoryGame(120, 'hard')
 easyButton.addEventListener('click', () => {
     easyGame.cardAmount()
     easyGame.boardRender()
+    mediumButton.disabled = true
+    hardButton.disabled = true
 }, {once: true})
 
 mediumButton.addEventListener('click', (e) => {
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     mediumGame.cardAmount()
     mediumGame.boardRender()
+    easyButton.disabled = true
+    hardButton.disabled = true
 }, {once: true})
 
 hardButton.addEventListener('click', (e) => {
     gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'
     hardGame.cardAmount()
     hardGame.boardRender()
+    easyButton.disabled = true
+    mediumButton.disabled = true
 }, {once: true})
 
 startButton.addEventListener('click', (e) => {
