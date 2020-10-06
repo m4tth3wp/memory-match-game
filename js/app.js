@@ -23,11 +23,6 @@ class MemoryGame {
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
     }
-    resetGame = () => {
-        gameBoard.innerHTML = '';
-        gameScore.innerHTML = 0;
-        messageBox.innerHTML = '';
-    }
     countdownTime = () => {
         if(!this.isGameStarted) {
             this.isGameStarted = true;
@@ -41,14 +36,14 @@ class MemoryGame {
           this.isGameStarted = false
         }
       }
-    checkMatch() {
+    checkMatch = () => {
         //check to see if the two cards match
         let imagesRendered = document.querySelectorAll('.picked-choice')
         let imageArr = Array.from(imagesRendered)
         let option1 = imageArr[0].getAttribute('data-info')
         let option2 = imageArr[1].getAttribute('data-info')
         if (imageArr.length === 2 && option1 === option2) {
-            imagesRendered.forEach(function(image) {
+            imagesRendered.forEach((image) => {
                 image.classList.remove('picked-choice')
                 image.classList.add('winning-pick')
             })
@@ -62,7 +57,7 @@ class MemoryGame {
             })
         }
     }
-    cardAmount() {
+    cardAmount = () => {
         let cards = this.difficulty
         if(cards === 'easy') {
             this.cardsRendered = 8
@@ -73,12 +68,12 @@ class MemoryGame {
             this.cardsRendered = 24
         } 
     }
-    gameStart() {
+    gameStart = () => {
         messageBox.innerHTML = 'Go!'
         this.revealImages()
         this.countdownTime()
     }
-    revealImages() {
+    revealImages = () => {
         let cards = document.querySelectorAll('.card')
         let tries = 0
         cards.forEach((card) => {
@@ -105,7 +100,7 @@ class MemoryGame {
         } else {
         }
     }
-    boardRender() {
+    boardRender = () => {
         let possibleChoices = this.choices.slice(0)
         let selected = []
         for (let i = 0; i < this.cardsRendered / 2; i++) {
@@ -129,13 +124,18 @@ class MemoryGame {
             let gameCards = $(`<div class='card'><img data-info=${selected[i]} src=${selected[i]} draggable="false"></img></div>`)
             gameGrid.append(gameCards)
         }
-        
     }
 }
 /*----- app's state (variables) -----*/
 let easyGame = new MemoryGame(30, 'easy')
 let mediumGame = new MemoryGame(60, 'medium')
 let hardGame = new MemoryGame(120, 'hard')
+let gameLostMessage = 'Sorry! You Ran out of time! Try Again?'
+
+/*----- functions -----*/
+let resetGame = () => {
+    location.reload()
+}
 
 /*----- event listeners -----*/
 easyButton.addEventListener('click', () => {
@@ -168,34 +168,33 @@ startButton.addEventListener('click', (e) => {
    if (cardsArr.length === 8) {
     easyGame.gameStart()
     setTimeout(() => {
+        if(easyGame.isGameStarted) {
+            messageBox.innerHTML = gameLostMessage
+        }
         easyGame.stop()
-        //todo: add remove listeners on cards
-        messageBox.innerHTML = 'Sorry you lost :( . Try again?'
-    }, 30000);
+        //todo: add remove listeners on cards       
+    }, 31000);
    } else if (cardsArr.length === 16) {
     mediumGame.gameStart()
     setTimeout(() => {
+        if(mediumGame.isGameStarted) {
+            messageBox.innerHTML = gameLostMessage
+        }
         mediumGame.stop()
         //todo: add remove listeners on cards
-        messageBox.innerHTML = 'Sorry you lost :( . Try again?'
-    }, 60000);
+    }, 61000);
    } else {
     hardGame.gameStart()
     setTimeout(() => {
+        if(mediumGame.isGameStarted) {
+            messageBox.innerHTML = gameLostMessage
+        }
         hardGame.stop()
         //todo: add remove listeners on cards
-        messageBox.innerHTML = 'Sorry you lost :( . Try again?'
-    }, 120000);
+    }, 121000);
    }
-    
 }, {once: true})
 
 resetButton.addEventListener('click', resetGame)
 
-/*----- functions -----*/
-function resetGame() {
-    gameBoard.innerHTML = ''
-    gameScore.innerHTML = 0
-    gameBoard.style.gridTemplateColumns = '1fr 1fr 1fr 1fr'
-    location.reload()
-}
+
