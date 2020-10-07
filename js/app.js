@@ -72,7 +72,7 @@ class MemoryGame {
     }
     gameStart = () => {
         messageBox.innerHTML = 'Go!'
-        messageBox.style.fontSize = '40px'
+        messageBox.style.fontSize = '20px'
         this.revealImages()
         this.countdownTime()
     }

@@ -30,6 +30,12 @@ h2 {
     line-height: 1.5;
 }
 
+@media (max-width: 700px) {
+    .message-box {
+        font-size: 20px;
+    }
+}
+
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -49,6 +55,7 @@ h2 {
     display: grid;
     margin-bottom: 10px;
     font-family: 'Play', sans-serif;
+    font-weight: bold;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding-left: 15px;
     grid-template-rows: auto;
