@@ -46,6 +46,8 @@ class MemoryGame {
             imagesRendered.forEach((image) => {
                 image.classList.remove('picked-choice')
                 image.classList.add('winning-pick')
+                image.style.borderStyle = 'solid'
+                image.style.borderColor = 'yellow'
             })
         } else {
 
@@ -70,6 +72,7 @@ class MemoryGame {
     }
     gameStart = () => {
         messageBox.innerHTML = 'Go!'
+        messageBox.style.fontSize = '40px'
         this.revealImages()
         this.countdownTime()
     }
@@ -96,6 +99,7 @@ class MemoryGame {
         let scoreBoard = document.querySelector('.score').textContent
         if (allCardsArr.length === this.cardsRendered) {
             messageBox.innerHTML = `You won! You did it in ${scoreBoard} turns and with ${timeLeft} seconds left!`
+            messageBox.style.fontSize = '40px'
             this.stop()
         } else {
         }
@@ -173,7 +177,7 @@ startButton.addEventListener('click', (e) => {
         }
         easyGame.stop()
         //todo: add remove listeners on cards       
-    }, 31000);
+    }, 30500);
    } else if (cardsArr.length === 16) {
     mediumGame.gameStart()
     setTimeout(() => {
