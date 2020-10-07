@@ -7,7 +7,7 @@ let startButton = document.getElementById('start');
 let resetButton = document.getElementById('reset');
 let gameBoard = document.querySelector('.game-board');
 let gameScore = document.querySelector('.score');
-let gameTime = document.querySelector('.timer')
+let gameTime = document.querySelector('.timer');
 
 
 
@@ -183,7 +183,7 @@ startButton.addEventListener('click', (e) => {
             messageBox.innerHTML = gameLostMessage
         }
         easyGame.stop()
-        //todo: add remove listeners on cards       
+        easyGame.removeCLick()       
     }, 30500);
    } else if (cardsArr.length === 16) {
     mediumGame.gameStart()
@@ -192,7 +192,7 @@ startButton.addEventListener('click', (e) => {
             messageBox.innerHTML = gameLostMessage
         }
         mediumGame.stop()
-        //todo: add remove listeners on cards
+        mediumGame.removeCLick()
     }, 61000);
    } else {
     hardGame.gameStart()
@@ -201,7 +201,7 @@ startButton.addEventListener('click', (e) => {
             messageBox.innerHTML = gameLostMessage
         }
         hardGame.stop()
-        //todo: add remove listeners on cards
+        hardGame.removeCLick()
     }, 121000);
    }
 }, {once: true})
