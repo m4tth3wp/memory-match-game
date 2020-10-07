@@ -19,6 +19,7 @@ class MemoryGame {
         this.cardsRendered = 0;
         this.isGameStarted = false;
         this.runTimer;
+        this.gameScore = 0
         this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
@@ -76,20 +77,26 @@ class MemoryGame {
         this.revealImages()
         this.countdownTime()
     }
+    imageClick = (e) => {
+        let targetImage = e.target
+        this.gameScore++
+        let fullTries = this.gameScore / 2
+        gameScore.innerHTML = Math.round(fullTries)
+        targetImage.style.opacity = '1'
+        targetImage.classList.add('picked-choice')
+        this.checkMatch()
+        this.declareWin()
+    }
+    removeCLick = () => {
+        let cards = document.querySelectorAll('.card')
+        cards.forEach((card) => {
+            card.removeEventListener('click', this.imageClick)
+        })
+    }
     revealImages = () => {
         let cards = document.querySelectorAll('.card')
-        let tries = 0
         cards.forEach((card) => {
-            card.addEventListener('click', (e) => {
-            let targetImage = e.target
-            tries++
-            let fullTries = tries / 2
-            gameScore.innerHTML = Math.round(fullTries)
-            targetImage.style.opacity = '1'
-            targetImage.classList.add('picked-choice')
-            this.checkMatch()
-            this.declareWin()
-            })
+            card.addEventListener('click', this.imageClick)
         })
     }
     declareWin = () => {
@@ -100,6 +107,7 @@ class MemoryGame {
         if (allCardsArr.length === this.cardsRendered) {
             messageBox.innerHTML = `You won! You did it in ${scoreBoard} turns and with ${timeLeft} seconds left!`
             this.stop()
+            this.removeCLick()
         } else {
         }
     }
