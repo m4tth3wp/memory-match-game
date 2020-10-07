@@ -29,7 +29,11 @@ class MemoryGame {
             this.isGameStarted = true;
             this.runTimer = setInterval( () => {gameTime.innerHTML = --this.totalTime}, 1000)
         }
-
+    }
+    playSound = () => {
+        let audioElement = document.createElement('audio');
+        audioElement.setAttribute('src', 'audio/tada.wav')
+        audioElement.play()
     }
     stop = () => {
         if(this.isGameStarted){
@@ -49,6 +53,7 @@ class MemoryGame {
                 image.classList.add('winning-pick')
                 image.style.borderStyle = 'solid'
                 image.style.borderColor = 'yellow'
+                this.playSound()
             })
         } else {
 
