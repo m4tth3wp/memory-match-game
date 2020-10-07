@@ -71,8 +71,8 @@ class MemoryGame {
         } 
     }
     gameStart = () => {
-        messageBox.innerHTML = 'Go!'
         messageBox.style.fontSize = '20px'
+        messageBox.innerHTML = 'Go!'
         this.revealImages()
         this.countdownTime()
     }
@@ -99,7 +99,6 @@ class MemoryGame {
         let scoreBoard = document.querySelector('.score').textContent
         if (allCardsArr.length === this.cardsRendered) {
             messageBox.innerHTML = `You won! You did it in ${scoreBoard} turns and with ${timeLeft} seconds left!`
-            messageBox.style.fontSize = '40px'
             this.stop()
         } else {
         }
