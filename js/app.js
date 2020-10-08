@@ -61,6 +61,7 @@ class MemoryGame {
                 setTimeout(function(){
                     image.style.opacity = '0'
                     image.classList.remove('picked-choice')
+                    image.style.transform = null
                 }, 1000)
             })
         }
@@ -87,6 +88,7 @@ class MemoryGame {
         this.gameScore++
         let fullTries = this.gameScore / 2
         gameScore.innerHTML = Math.round(fullTries)
+        targetImage.style.transform = 'rotate(360deg)'
         targetImage.style.opacity = '1'
         targetImage.classList.add('picked-choice')
         this.checkMatch()
