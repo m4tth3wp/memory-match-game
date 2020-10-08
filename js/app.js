@@ -20,6 +20,7 @@ class MemoryGame {
         this.isGameStarted = false;
         this.runTimer;
         this.gameScore = 0
+        this.clickImages = true
         this.choices = ['img/html-5.png', 'img/javascript.png', 'img/python.png', 'img/css.png',
          'img/nodejs.png', 'img/github.png', 'img/visual-basic.png', 'img/react.png', 
         'img/mysql.png', 'img/ruby.png', 'img/sass.png', 'img/gnu-bash.png']
@@ -48,6 +49,7 @@ class MemoryGame {
         let option1 = imageArr[0].getAttribute('data-info')
         let option2 = imageArr[1].getAttribute('data-info')
         if (imageArr.length === 2 && option1 === option2) {
+            this.clickImages = false
             imagesRendered.forEach((image) => {
                 image.classList.remove('picked-choice')
                 image.classList.add('winning-pick')
@@ -56,15 +58,19 @@ class MemoryGame {
                 this.playSound()
             })
         } else {
-
-            imagesRendered.forEach(function(image) {
-                setTimeout(function(){
+            this.clickImages = false
+            imagesRendered.forEach((image) => {
+                setTimeout( () => {
                     image.style.opacity = '0'
                     image.classList.remove('picked-choice')
                     image.style.transform = null
                 }, 1000)
             })
         }
+        setTimeout(() => {
+            this.clickImages = true
+        }, 1000)
+        
     }
     cardAmount = () => {
         let cards = this.difficulty
@@ -84,15 +90,19 @@ class MemoryGame {
         this.countdownTime()
     }
     imageClick = (e) => {
+        // this.clickImages = true
+        if (this.clickImages) {
         let targetImage = e.target
         this.gameScore++
         let fullTries = this.gameScore / 2
-        gameScore.innerHTML = Math.round(fullTries)
-        targetImage.style.transform = 'rotate(360deg)'
-        targetImage.style.opacity = '1'
-        targetImage.classList.add('picked-choice')
-        this.checkMatch()
-        this.declareWin()
+            gameScore.innerHTML = Math.round(fullTries)
+            targetImage.style.transform = 'rotate(360deg)'
+            targetImage.style.opacity = '1'
+            targetImage.classList.add('picked-choice')
+            this.checkMatch()
+            this.declareWin()
+        }
+        
     }
     removeCLick = () => {
         let cards = document.querySelectorAll('.card')
@@ -149,6 +159,7 @@ let easyGame = new MemoryGame(30, 'easy')
 let mediumGame = new MemoryGame(60, 'medium')
 let hardGame = new MemoryGame(120, 'hard')
 let gameLostMessage = 'Sorry! You Ran out of time! Try Again?'
+startButton.disabled = true
 
 /*----- functions -----*/
 let resetGame = () => {
@@ -161,6 +172,7 @@ easyButton.addEventListener('click', () => {
     easyGame.boardRender()
     mediumButton.disabled = true
     hardButton.disabled = true
+    startButton.disabled = false
 }, {once: true})
 
 mediumButton.addEventListener('click', (e) => {
@@ -169,6 +181,7 @@ mediumButton.addEventListener('click', (e) => {
     mediumGame.boardRender()
     easyButton.disabled = true
     hardButton.disabled = true
+    startButton.disabled = false
 }, {once: true})
 
 hardButton.addEventListener('click', (e) => {
@@ -177,6 +190,7 @@ hardButton.addEventListener('click', (e) => {
     hardGame.boardRender()
     easyButton.disabled = true
     mediumButton.disabled = true
+    startButton.disabled = false
 }, {once: true})
 
 startButton.addEventListener('click', (e) => {
