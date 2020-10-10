@@ -36,7 +36,7 @@ class MemoryGame {
         audioElement.setAttribute('src', 'audio/tada.wav')
         audioElement.play()
     }
-    stop = () => {
+    stopTime = () => {
         if(this.isGameStarted){
           clearInterval(this.runTimer);
           this.isGameStarted = false
@@ -90,7 +90,6 @@ class MemoryGame {
         this.countdownTime()
     }
     imageClick = (e) => {
-        // this.clickImages = true
         if (this.clickImages) {
         let targetImage = e.target
         this.gameScore++
@@ -123,7 +122,7 @@ class MemoryGame {
         let scoreBoard = document.querySelector('.score').textContent
         if (allCardsArr.length === this.cardsRendered) {
             messageBox.innerHTML = `You won! You did it in ${scoreBoard} turns and with ${timeLeft} seconds left!`
-            this.stop()
+            this.stopTime()
             this.removeCLick()
         } else {
         }
@@ -203,7 +202,7 @@ startButton.addEventListener('click', (e) => {
         if(easyGame.isGameStarted) {
             messageBox.innerHTML = gameLostMessage
         }
-        easyGame.stop()
+        easyGame.stopTime()
         easyGame.removeCLick()       
     }, 30500);
    } else if (cardsArr.length === 16) {
@@ -212,7 +211,7 @@ startButton.addEventListener('click', (e) => {
         if(mediumGame.isGameStarted) {
             messageBox.innerHTML = gameLostMessage
         }
-        mediumGame.stop()
+        mediumGame.stopTime()
         mediumGame.removeCLick()
     }, 61000);
    } else {
@@ -221,7 +220,7 @@ startButton.addEventListener('click', (e) => {
         if(mediumGame.isGameStarted) {
             messageBox.innerHTML = gameLostMessage
         }
-        hardGame.stop()
+        hardGame.stopTime()
         hardGame.removeCLick()
     }, 121000);
    }
